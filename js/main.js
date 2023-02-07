@@ -35,7 +35,7 @@ tablero.map(
             //Ejemplo de inyección de HTML desde JavaScript
             // celda.innerHTML = `<p class='devil'>NUNCA LO ACABARAS</p>`;
 
-            if((celda.innerHTML === "") && (fichaP1 > 0 || fichaP2 > 0)){
+            if((celda.innerHTML === "") && (fichaP1 || fichaP2 > 0)){
                 celda.innerHTML = (turno) ? "X" : "O";
 
                 (turno) ? fichaP1-- : fichaP2--;
@@ -48,12 +48,15 @@ tablero.map(
                 turno = !turno;
             } else if ((celda.innerHTML !=="") && (fichaP1 || fichaP2 === 0)){
                 if (celda.innerHTML === "X" && turno == true){
-                celda.innerHTML = "";
-                } else if (celda.innerHTML === "0" && turno == false){
+                    celda.innerHTML = "";
+                        // if (celda.innerHTML === ""){
+                        //     celda.innerHTML = "X";
+                        // };
+                } else if (celda.innerHTML === "O" && turno == false){
                     celda.innerHTML = "";
                     }
 
-                // (turno) ? fichaP1++ : fichaP2++;
+                (turno) ? fichaP1++ : fichaP2++;
 
                 // if((celda.innerHTML === "") && (fichaP1 > 0 || fichaP2 > 0)){
                 //     celda.innerHTML = (turno) ? "X" : "O";
