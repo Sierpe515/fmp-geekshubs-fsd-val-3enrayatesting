@@ -7,6 +7,8 @@ let turno = true;
 let fichaP1 = 3;
 let fichaP2 = 3;
 
+let fichaBorrada = false;
+
 let miTablero = ["","","","","","","","",""];
 
 let juegoTerminado = false;
@@ -140,6 +142,8 @@ tablero.map(
 
                 miTablero[celda.id] = (turno) ? "X" : "O";
 
+                fichaBorrada = false
+
                 comprueboGanador();
 
                 //Cambiamos de turno
@@ -147,12 +151,14 @@ tablero.map(
             } else if ((celda.innerHTML !=="") && (fichaP1 || fichaP2 === 0)){
                 if (celda.innerHTML === "X" && turno == true){
                     celda.innerHTML = "";
+                    fichaBorrada = true;
                     fichaP1++;
                         // if (celda.innerHTML === ""){
                         //     celda.innerHTML = "X";
                         // };
                 } else if (celda.innerHTML === "O" && turno == false){
                     celda.innerHTML = "";
+                    fichaBorrada = true;
                     fichaP2++;
                     }
 
