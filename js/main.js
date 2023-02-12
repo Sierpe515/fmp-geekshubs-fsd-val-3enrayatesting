@@ -62,27 +62,26 @@ const evitarGanador = () => {
     combinacionGanadora.map(EvitarCombinacion => {
         let [pos1, pos2, pos3] = EvitarCombinacion;
         
-        if (miTablero[pos1] === miTablero[pos2] && miTablero[pos3] === "" && miTablero[pos1] !== ""){
-            console.log("Aquí me puedes ganar")
-        } else if (miTablero[pos1] === miTablero[pos3] && miTablero[pos2] === "" && miTablero[pos1] !== ""){
-            console.log("Aquí me puedes ganar")
-        } else if (miTablero[pos2] === miTablero[pos3] && miTablero[pos1] === "" && miTablero[pos2] !== ""){
-            console.log("Aquí me puedes ganar")
+        if (miTablero[pos1] === miTablero[pos2] && miTablero[pos3] === "" && miTablero[pos1]){
+            console.log("Aquí me puedes ganar");
+        } else if (miTablero[pos1] === miTablero[pos3] && miTablero[pos2] === "" && miTablero[pos1]){
+            console.log("Aquí me puedes ganar");
+        } else if (miTablero[pos2] === miTablero[pos3] && miTablero[pos1] === "" && miTablero[pos2]){
+            console.log("Aquí me puedes ganar");
         } else {
-            console.log("No me entero")
+            console.log("Por aquí no pasa nada");
         }
     })
 }
 
 const jugadaCpu = () => {
-    console.log ("hola");
+    
     let aleatorio = tablero[Math.floor(Math.random() * tablero.length)];
     console.log (aleatorio)
     while (aleatorio.innerHTML !== ""){
         aleatorio = tablero[Math.floor(Math.random() * tablero.length)]
     }
-    console.log("quiero pintar aquí");
-    evitarGanador ();
+    
     aleatorio.innerHTML = "O";
     miTablero[aleatorio.id] = "O";
 
@@ -114,11 +113,14 @@ tablero.map(
                 
                 fichaP1-- ;
 
+                miTablero[celda.id] = "X";
+                
+                evitarGanador ();
+
                 robarCpu();
                 
                 jugadaCpu();
 
-                miTablero[celda.id] = "X";
 
                 fichaBorrada = false
 
@@ -134,6 +136,9 @@ tablero.map(
                     fichaP1++;
 
                 miTablero[celda.id] = "";
+                // miTablero[celda.id] = null;
+                // marca como null en el console log, pero no inhabilita casilla
+                
 
             }
         })
