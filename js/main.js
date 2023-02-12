@@ -7,6 +7,8 @@ let turno = true;
 let fichaP1 = 3;
 let fichaP2 = 3;
 
+let contadorTurnosP1 = 0;
+
 let fichaBorrada = false;
 
 let miTablero = ["","","","","","","","",""];
@@ -26,74 +28,6 @@ let combinacionGanadora = [
 
 const comprueboGanador = () => {
     console.log(miTablero);
-    // switch (true) {
-    //     case (miTablero[0, 1, 2] === ["X", "X", "X"]):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     case (miTablero[3, 4, 5] === "X"):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     case (miTablero[6, 7, 8] === "X"):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     case (miTablero[0, 3, 6] === "X"):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     case (miTablero[1, 4, 7] === "X"):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     case (miTablero[2, 5, 8] === "X"):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     case (miTablero[0, 4, 8] === "X"):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     case (miTablero[2, 4, 6] === "X"):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     case (miTablero[0, 1, 2] === "O"):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     case (miTablero[3, 4, 5] === "O"):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     case (miTablero[6, 7, 8] === "O"):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     case (miTablero[0, 3, 6] === "O"):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     case (miTablero[1, 4, 7] === "O"):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     case (miTablero[2, 5, 8] === "O"):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     case (miTablero[0, 4, 8] === "O"):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     case (miTablero[2, 4, 6] === "O"):
-    //         console.log("Has ganado!")
-    //         break;
-
-    //     default:
-        
-    // }
 
     if (miTablero[0] === miTablero[1] && miTablero [0] === miTablero [2] && miTablero[0] !== ""){
         console.log("Has ganado!");
@@ -123,49 +57,84 @@ const comprueboGanador = () => {
 
 }
 
+const evitarGanador = () => {
+    console.log("Voy a evitar que ganes")
+    combinacionGanadora.map(EvitarCombinacion => {
+        let [pos1, pos2, pos3] = EvitarCombinacion;
+        
+        if (miTablero[pos1] === miTablero[pos2] && miTablero[pos3] === "" && miTablero[pos1] !== ""){
+            console.log("Aquí me puedes ganar")
+        } else if (miTablero[pos1] === miTablero[pos3] && miTablero[pos2] === "" && miTablero[pos1] !== ""){
+            console.log("Aquí me puedes ganar")
+        } else if (miTablero[pos2] === miTablero[pos3] && miTablero[pos1] === "" && miTablero[pos2] !== ""){
+            console.log("Aquí me puedes ganar")
+        } else {
+            console.log("No me entero")
+        }
+    })
+}
+
+const jugadaCpu = () => {
+    console.log ("hola");
+    let aleatorio = tablero[Math.floor(Math.random() * tablero.length)];
+    console.log (aleatorio)
+    while (aleatorio.innerHTML !== ""){
+        aleatorio = tablero[Math.floor(Math.random() * tablero.length)]
+    }
+    console.log("quiero pintar aquí");
+    evitarGanador ();
+    aleatorio.innerHTML = "O";
+    miTablero[aleatorio.id] = "O";
+
+}
+
+const robarCpu = () => {
+    if (contadorTurnosP1 > 2){
+        console.log ("Debería de quitar una ficha")
+        let aleatorio = tablero[Math.floor(Math.random() * tablero.length)];
+        while (aleatorio.innerHTML !== "O"){
+            aleatorio = tablero[Math.floor(Math.random() * tablero.length)]
+        }
+        console.log("Voy a robar esta ficha");
+        aleatorio.innerHTML = "";
+        miTablero[aleatorio.id] = "";
+        console.log(fichaBorrada)
+    }
+}
+
 tablero.map(
     (celda) => {
         celda.addEventListener('click', ()=> {
 
-            //Ejemplo de como añadir una clase a un elemento seleccionado
-            // celda.classList.add('cellDesign2');
-
-            //Ejemplo de inyección de HTML desde JavaScript
-            // celda.innerHTML = `<p class='devil'>NUNCA LO ACABARAS</p>`;
-
             if (juegoTerminado) return;
 
-            if((celda.innerHTML === "") && (fichaP1 || fichaP2 > 0)){
-                celda.innerHTML = (turno) ? "X" : "O";
+            if((celda.innerHTML === "") && (fichaP1 > 0)){
+                
+                celda.innerHTML = "X";
+                
+                fichaP1-- ;
 
-                (turno) ? fichaP1-- : fichaP2--;
+                robarCpu();
+                
+                jugadaCpu();
 
-                miTablero[celda.id] = (turno) ? "X" : "O";
+                miTablero[celda.id] = "X";
 
                 fichaBorrada = false
 
+                contadorTurnosP1++
+                console.log(contadorTurnosP1)
+
                 comprueboGanador();
 
-                //Cambiamos de turno
-                turno = !turno;
-            } else if ((celda.innerHTML !=="") && (fichaP1 || fichaP2 === 0)){
-                if (celda.innerHTML === "X" && turno == true){
+                // turno = !turno;
+            } else if ((celda.innerHTML !=="") && (fichaP1 === 0)){
                     celda.innerHTML = "";
                     fichaBorrada = true;
                     fichaP1++;
-                        // if (celda.innerHTML === ""){
-                        //     celda.innerHTML = "X";
-                        // };
-                } else if (celda.innerHTML === "O" && turno == false){
-                    celda.innerHTML = "";
-                    fichaBorrada = true;
-                    fichaP2++;
-                    }
 
                 miTablero[celda.id] = "";
 
-                // if((celda.innerHTML === "") && (fichaP1 > 0 || fichaP2 > 0)){
-                //     celda.innerHTML = (turno) ? "X" : "O";
             }
         })
     }
