@@ -57,6 +57,12 @@ const comprueboGanador = () => {
 
 }
 
+// const reprodAudio = () => {
+//     let audio = document.createElement("audio");
+//     audio.src = "../audio/RISA DIABOLICA DE CHUCKY (152kbit_AAC).m4a";
+//     auto.play;
+// }
+
 const evitarGanador = () => {
     console.log("Voy a evitar que ganes")
     combinacionGanadora.map(EvitarCombinacion => {
@@ -64,10 +70,17 @@ const evitarGanador = () => {
         
         if (miTablero[pos1] === miTablero[pos2] && miTablero[pos3] === "" && miTablero[pos1]){
             console.log("Aquí me puedes ganar");
+            // reprodAudio ();
+            // tablero[combinacionGanadora[pos3]].innerHTML = "O"
+            // miTablero[combinacionGanadora[pos3]] = "O"
         } else if (miTablero[pos1] === miTablero[pos3] && miTablero[pos2] === "" && miTablero[pos1]){
             console.log("Aquí me puedes ganar");
+            // tablero[combinacionGanadora[pos2]].innerHTML = "O"
+            // miTablero[combinacionGanadora[pos2]] = "O"
         } else if (miTablero[pos2] === miTablero[pos3] && miTablero[pos1] === "" && miTablero[pos2]){
             console.log("Aquí me puedes ganar");
+            // tablero[combinacionGanadora[pos1]].innerHTML = "O"
+            // miTablero[combinacionGanadora[pos1]] = "O"
         } else {
             console.log("Por aquí no pasa nada");
         }
@@ -114,10 +127,12 @@ tablero.map(
                 fichaP1-- ;
 
                 miTablero[celda.id] = "X";
-                
-                evitarGanador ();
 
                 robarCpu();
+
+                // If (evitarGanador = true) else (jugadaCpu)?
+                
+                evitarGanador ();
                 
                 jugadaCpu();
 
