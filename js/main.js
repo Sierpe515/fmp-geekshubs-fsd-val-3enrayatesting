@@ -70,17 +70,18 @@ const evitarGanador = () => {
         
         if (miTablero[pos1] === miTablero[pos2] && miTablero[pos3] === "" && miTablero[pos1]){
             console.log("Aquí me puedes ganar");
+            // console.log([pos3])
             // reprodAudio ();
-            // tablero[combinacionGanadora[pos3]].innerHTML = "O"
-            // miTablero[combinacionGanadora[pos3]] = "O"
+            tablero[pos3].innerHTML = "O"
+            miTablero[pos3] = "O"
         } else if (miTablero[pos1] === miTablero[pos3] && miTablero[pos2] === "" && miTablero[pos1]){
-            console.log("Aquí me puedes ganar");
-            // tablero[combinacionGanadora[pos2]].innerHTML = "O"
-            // miTablero[combinacionGanadora[pos2]] = "O"
+            console.log("Aquí me puedes ganar", miTablero[pos2]);
+            tablero[pos2].innerHTML = "O"
+            miTablero[pos2] = "O"
         } else if (miTablero[pos2] === miTablero[pos3] && miTablero[pos1] === "" && miTablero[pos2]){
-            console.log("Aquí me puedes ganar");
-            // tablero[combinacionGanadora[pos1]].innerHTML = "O"
-            // miTablero[combinacionGanadora[pos1]] = "O"
+            console.log("Aquí me puedes ganar", miTablero[pos1]);
+            tablero[pos1].innerHTML = "O"
+            miTablero[pos1] = "O"
         } else {
             console.log("Por aquí no pasa nada");
         }
