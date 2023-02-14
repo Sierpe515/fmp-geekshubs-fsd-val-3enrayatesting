@@ -7,6 +7,8 @@ let turno = true;
 let fichaP1 = 3;
 let fichaP2 = 3;
 
+let fichacpu = false;
+
 let contadorTurnosP1 = 0;
 
 let fichaBorrada = false;
@@ -63,41 +65,80 @@ const comprueboGanador = () => {
 //     auto.play;
 // }
 
+const intentarGanar = () => {
+    console.log("Te voy a ganar")
+    combinacionGanadora.map(conseguirCombinacion => {
+        let [pos1, pos2, pos3] = conseguirCombinacion;
+        
+        if (fichacpu == false && miTablero[pos1] === "O" && miTablero[pos2] === "O" && miTablero[pos3] === "" && miTablero[pos1]){
+            console.log("Aquí te puedo ganar");
+            console.log([pos3])
+            // reprodAudio ();
+            tablero[pos3].innerHTML = "O"
+            miTablero[pos3] = "O"
+            fichacpu = true
+        } else if (fichacpu == false && miTablero[pos1] === "O" && miTablero[pos3] === "O" && miTablero[pos2] === "" && miTablero[pos1]){
+            console.log("Aquí te puedo ganar", miTablero[pos2]);
+            console.log([pos2])
+            tablero[pos2].innerHTML = "O"
+            miTablero[pos2] = "O"
+            fichacpu = true
+        } else if (fichacpu == false && miTablero[pos2] === "O" && miTablero[pos3] === "O" && miTablero[pos1] === "" && miTablero[pos2]){
+            console.log("Aquí te puedo ganar", miTablero[pos1]);
+            console.log([pos1])
+            tablero[pos1].innerHTML = "O"
+            miTablero[pos1] = "O"
+            fichacpu = true
+        } else {
+            console.log("Por aquí no pasa nada");
+            console.log(fichacpu)
+        }
+    })
+}
+
 const evitarGanador = () => {
     console.log("Voy a evitar que ganes")
     combinacionGanadora.map(EvitarCombinacion => {
         let [pos1, pos2, pos3] = EvitarCombinacion;
         
-        if (miTablero[pos1] === miTablero[pos2] && miTablero[pos3] === "" && miTablero[pos1]){
+        if (fichacpu == false && miTablero[pos1] === "X" && miTablero[pos2] === "X" && miTablero[pos3] === "" && miTablero[pos1]){
             console.log("Aquí me puedes ganar");
-            // console.log([pos3])
+            console.log([pos3])
             // reprodAudio ();
             tablero[pos3].innerHTML = "O"
             miTablero[pos3] = "O"
-        } else if (miTablero[pos1] === miTablero[pos3] && miTablero[pos2] === "" && miTablero[pos1]){
+            fichacpu = true
+        } else if (fichacpu == false && miTablero[pos1] === "X" && miTablero[pos3] === "X" && miTablero[pos2] === "" && miTablero[pos1]){
             console.log("Aquí me puedes ganar", miTablero[pos2]);
+            console.log([pos2])
             tablero[pos2].innerHTML = "O"
             miTablero[pos2] = "O"
-        } else if (miTablero[pos2] === miTablero[pos3] && miTablero[pos1] === "" && miTablero[pos2]){
+            fichacpu = true
+        } else if (fichacpu == false && miTablero[pos2] === "X" && miTablero[pos3] === "X" && miTablero[pos1] === "" && miTablero[pos2]){
             console.log("Aquí me puedes ganar", miTablero[pos1]);
+            console.log([pos1])
             tablero[pos1].innerHTML = "O"
             miTablero[pos1] = "O"
+            fichacpu = true
         } else {
             console.log("Por aquí no pasa nada");
+            console.log(fichacpu)
         }
     })
 }
 
 const jugadaCpu = () => {
     
-    let aleatorio = tablero[Math.floor(Math.random() * tablero.length)];
-    console.log (aleatorio)
-    while (aleatorio.innerHTML !== ""){
-        aleatorio = tablero[Math.floor(Math.random() * tablero.length)]
+    if (fichacpu == false){
+        let aleatorio = tablero[Math.floor(Math.random() * tablero.length)];
+        console.log (aleatorio)
+        while (aleatorio.innerHTML !== ""){
+            aleatorio = tablero[Math.floor(Math.random() * tablero.length)]
+        }
+        aleatorio.innerHTML = "O";
+        miTablero[aleatorio.id] = "O";
+        fichacpu = true
     }
-    
-    aleatorio.innerHTML = "O";
-    miTablero[aleatorio.id] = "O";
 
 }
 
@@ -111,7 +152,7 @@ const robarCpu = () => {
         console.log("Voy a robar esta ficha");
         aleatorio.innerHTML = "";
         miTablero[aleatorio.id] = "";
-        console.log(fichaBorrada)
+        console.log(aleatorio)
     }
 }
 
@@ -129,9 +170,12 @@ tablero.map(
 
                 miTablero[celda.id] = "X";
 
+                fichacpu = false;
+
                 robarCpu();
 
                 // If (evitarGanador = true) else (jugadaCpu)?
+                intentarGanar ();
                 
                 evitarGanador ();
                 
